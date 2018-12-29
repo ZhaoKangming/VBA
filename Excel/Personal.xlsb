@@ -1,0 +1,28 @@
+'Version:1.0    Author:ZhaoKangming
+
+'宏作用:将选中区域（NameRng）的每个单元格内容作为文件夹名在指定路径下（FolderPath）建立文件夹
+Public Sub MkFolder()
+    Dim NameRng as Range, CellRng as Range, FolderPath$, ErrorOccurred As Boolean
+    ErrorOccurred = FALSE
+    FolderPath = inputbox("请输入新建文件夹的路径，不以'\'结尾","输入地址")
+    If FolderPath = "" Then FolderPath = ActiveWorkbook.Path
+    If len(Dir(FolderPath,16)) = 0 Then MkDir FolderPath  '若路径不存在则新建此文件夹
+    Set NameRng = Selection
+    For each CellRng in NameRng
+        If len(Trim(CellRng)) > 0 Then                    'Trim函数来去除单元格首尾的空格
+            If len(Dir(FolderPath & "\" & CellRng,16)) <> 0 Then
+                ErrorOccurred = True
+                Exit for
+            Else
+                MkDir FolderPath & "\" & CellRng
+            End If
+        End If 
+    Next
+    set NameRng = nothing
+    If ErrorOccurred = FALSE Then 
+        Msgbox "All folders have been created!"
+    Else
+        Msgbox "已经存在 " & CellRng & " 文件夹！"
+    End if
+End Sub
+
