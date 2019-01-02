@@ -1,4 +1,4 @@
-'Version:1.0    Author:ZhaoKangming
+'Version:1.1   
 
 '宏作用:将选中区域（NameRng）的每个单元格内容作为文件夹名在指定路径下（FolderPath）建立文件夹
 Public Sub MkFolder()
