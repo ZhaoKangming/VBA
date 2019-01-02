@@ -26,3 +26,24 @@ Public Sub MkFolder()
     End if
 End Sub
 
+'宏作用：将指定路径（FolderPath）下的子一级文件及文件夹列表输出至当前空白列（ActiveCol）
+Public Sub GetFilesList()
+    Dim FolderPath$, MyFile, ActiveCol%, i%
+    ActiveCol = ActiveCell.Column
+    If WorksheetFunction.CountA(Columns(ActiveCol)) > 0 Then
+        MsgBox "请选择空白列的单元格作为输出起始区域"
+        Exit Sub
+    End If
+    FolderPath = InputBox("请输入新建文件夹的路径，不以'\'结尾", "输入地址") & "\"
+    i = 1
+    MyFile = Dir(FolderPath, 16)
+    Do While MyFile <> ""
+        If MyFile <> "." And MyFile <> ".." Then
+            ActiveSheet.Cells(i, ActiveCol) = MyFile
+            i = i + 1
+        End If
+        MyFile = Dir
+    Loop
+    ActiveWorkbook.Save
+    MsgBox "已生成子一级文件及文件夹列表！"
+End Sub
