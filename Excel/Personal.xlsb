@@ -1,4 +1,4 @@
-'Version:1.1   
+'Version:1.3   
 
 '宏作用:将选中区域（NameRng）的每个单元格内容作为文件夹名在指定路径下（FolderPath）建立文件夹
 Public Sub MkFolder()
@@ -26,24 +26,50 @@ Public Sub MkFolder()
     End if
 End Sub
 
-'宏作用：将指定路径（FolderPath）下的子一级文件及文件夹列表输出至当前空白列（ActiveCol）
+'宏作用：将指定路径（FolderPath）下的子一级文件及文件夹列表输出至当前单元格起始的列区域
 Public Sub GetFilesList()
-    Dim FolderPath$, MyFile, ActiveCol%, i%
+    Dim FolderPath$, MyFile, ActiveCol%, ActiveRow%
     ActiveCol = ActiveCell.Column
-    If WorksheetFunction.CountA(Columns(ActiveCol)) > 0 Then
-        MsgBox "请选择空白列的单元格作为输出起始区域"
-        Exit Sub
-    End If
+    ActiveRow = ActiveCell.Row
+    'If WorksheetFunction.CountA(Columns(ActiveCol)) > 0 Then
+    '    MsgBox "请选择空白列的单元格作为输出起始区域"
+     '   Exit Sub
+    'End If
     FolderPath = InputBox("请输入新建文件夹的路径，不以'\'结尾", "输入地址") & "\"
-    i = 1
     MyFile = Dir(FolderPath, 16)
     Do While MyFile <> ""
         If MyFile <> "." And MyFile <> ".." Then
-            ActiveSheet.Cells(i, ActiveCol) = MyFile
-            i = i + 1
+            ActiveSheet.Cells(ActiveRow, ActiveCol) = MyFile
+            ActiveRow = ActiveRow + 1
         End If
         MyFile = Dir
     Loop
     ActiveWorkbook.Save
     MsgBox "已生成子一级文件及文件夹列表！"
+End Sub
+
+'宏作用：将指定路径（FolderPath）下的名字为选区（Selection)中左列的文件重命名为选区中右列的文件名
+Public Sub ReName()
+    Dim FolderPath$, MyFile, ReNamedFile, StartCol%, EndCol%, StartRow%, EndRow%, CellNumb%, i%
+    '【TODO】检查选区的列数，是否空列，是否两列，是否左列有值而右列无值,右列是否有重复值
+    CellNumb = Selection.Cells.Count
+    StartCol = Selection.Cells(1).Column
+    EndCol = Selection.Cells(CellNumb).Column
+    StartRow = Selection.Cells(1).Row
+    EndRow = Selection.Cells(CellNumb).Row
+
+    FolderPath = InputBox("请输入文件夹的路径，不以'\'结尾", "输入地址") & "\"
+    For i = StartRow To EndRow
+        If Trim(Cells(i, StartCol)) <> "" Then
+            MyFile = FolderPath & Cells(i, StartCol)
+            ReNamedFile = FolderPath & Cells(i, EndCol)
+            If Len(Dir(MyFile)) > 0 Then
+                Name MyFile As ReNamedFile
+            Else
+                MsgBox "不存在文件 " & Cells(i, StartCol)
+            End If
+        End If
+    Next
+    ActiveWorkbook.Save
+    MsgBox "All files have been renamed!"
 End Sub
