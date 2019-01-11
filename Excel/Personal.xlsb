@@ -48,6 +48,8 @@ Public Sub GetFilesList()
     MsgBox "已生成子一级文件及文件夹列表！"
 End Sub
 
+
+'右列表中有重复名字，左侧列表中没有该文件？
 '宏作用：将指定路径（FolderPath）下的名字为选区（Selection)中左列的文件重命名为选区中右列的文件名
 Public Sub ReName()
     Dim FolderPath$, MyFile, ReNamedFile, StartCol%, EndCol%, StartRow%, EndRow%, CellNumb%, i%
