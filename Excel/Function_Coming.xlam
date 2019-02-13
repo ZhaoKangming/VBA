@@ -1,13 +1,13 @@
-'Version:1.00    Author：ZhaoKangming
+'Author：ZhaoKangming
 
 '【DelPunctuation】用于清除单元格内的所有标点符号
 Public Function DelPunctuation(Txt As String) As String
-With CreateObject("VBScript.RegExp")
-.Pattern = "[^\u4e00-\u9fBF\u0041-\u005a\u0061-\u007\u2150-\u218faa-zA-Z\d]"
-.IgnoreCase = True
-.Global = True
-DelPunctuation = .Replace(Txt, "")
-End With
+    With CreateObject("VBScript.RegExp")
+        .Pattern = "[^\u4e00-\u9fBF\u0041-\u005a\u0061-\u007\u2150-\u218faa-zA-Z\d]"
+        .IgnoreCase = True
+        .Global = True
+        DelPunctuation = .Replace(Txt, "")
+    End With
 End Function
 
 '=============================================================================='
@@ -65,3 +65,49 @@ Public Function IdValid(IdNumb)
      If (IdValid <> "正确") And (IdValid <> "老号，请认真核对！") And (IdValid <> "空") And (IdValid <> "位数不对") Then IdValid = "出错啦"
 100:
 End Function
+
+'=============================================================================='
+
+'【GetDigit】用于提取字符串中的数字
+'Bug 451石巧Y110015 只能提取到451
+Public Function GetDigit(strValue As String) As Variant
+    Dim objReg As Object, objMatchs As Object, objMatch As Object
+    Dim strPat$, intIndex%
+    Dim strResult() As Long  '字符型String可以得到[00001],如果想直接得到数字，可以定义为长整型Long
+     
+    strPat = "\d+\.*\d*"
+    
+    Set objReg = CreateObject("VBScript.RegExp")
+    With objReg
+        .Global = True
+        .Pattern = strPat
+        Set objMatchs = .Execute(strValue)
+        intIndex = objMatchs.Count
+        If intIndex > 0 Then
+            ReDim strResult(1 To objMatchs.Count)
+            intIndex = 0
+            For Each objMatch In objMatchs
+                   intIndex = intIndex + 1
+                   strResult(intIndex) = objMatch
+            Next
+            GetDigit = strResult
+        End If
+    End With
+End Function
+
+'=============================================================================='
+
+'【FilesCount】用于返回文件夹路径（FolderPath）子一级文件和文件夹的数目
+Public Function FilesCount(FolderName) As Integer
+    Dim MyFile$
+    FilesCount = 0
+    MyFile = Dir(IIf(Right(FolderName, 1) = "\", FolderName & "*.*", FolderName & "\*.*"), vbNormal + vbDirectory)
+    Do While MyFile <> ""
+        FilesCount = FilesCount + 1
+        MyFile = Dir()
+    Loop
+    If FilesCount > 0 Then FilesCount = FilesCount - 2  '删除 "." 与 ".." 两个隐藏空文件夹
+End Function
+    
+
+
