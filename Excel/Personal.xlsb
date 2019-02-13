@@ -1,4 +1,3 @@
-'Version:1.3   
 
 '宏作用:将选中区域（NameRng）的每个单元格内容作为文件夹名在指定路径下（FolderPath）建立文件夹
 Public Sub MkFolder()
@@ -75,3 +74,20 @@ Public Sub ReName()
     ActiveWorkbook.Save
     MsgBox "All files have been renamed!"
 End Sub
+
+'宏作用：将指定路径（FolderPath）下的子一级空文件夹删除
+Public Sub DelBlankFolders()
+    Dim FolderPath$, MyFile
+    FolderPath = InputBox("请输入新建文件夹的路径，不以'\'结尾", "输入地址") & "\"
+    MyFile = Dir(FolderPath, 16)
+    Do While MyFile <> ""
+        If InStr(MyFile, ".") = 0 Then
+            On Error Resume Next
+            RmDir FolderPath & MyFile
+        End If
+        MyFile = Dir
+    Loop
+    ActiveWorkbook.Save
+    MsgBox "所有空文件夹已删除！"
+End Sub
+
