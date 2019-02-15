@@ -4,6 +4,7 @@ Public Sub MkFolder()
     Dim NameRng as Range, CellRng as Range, FolderPath$, ErrorOccurred As Boolean
     ErrorOccurred = FALSE
     FolderPath = inputbox("请输入新建文件夹的路径，不以'\'结尾","输入地址")
+    '【TODO】如果没有输入地址，Msgbox 并且叫重新输入
     If FolderPath = "" Then FolderPath = ActiveWorkbook.Path
     If len(Dir(FolderPath,16)) = 0 Then MkDir FolderPath  '若路径不存在则新建此文件夹
     Set NameRng = Selection
