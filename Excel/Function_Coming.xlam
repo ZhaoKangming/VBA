@@ -108,6 +108,34 @@ Public Function FilesCount(FolderName) As Integer
     Loop
     If FilesCount > 0 Then FilesCount = FilesCount - 2  '删除 "." 与 ".." 两个隐藏空文件夹
 End Function
-    
 
+'=============================================================================='
+' [未完成]
+Public Function UniqueValue()
+    Dim rng As Range, arr, d As Object
+    Set d = CreateObject("scripting.dictionary")
+    For Each rn In Range("A1:A10")
+        If rng <> "" And Not d.exists(rng.Value) Then d(rng.Value)= rng.Value
+    Next
+    arr = d.items
+    For i = 0 To d.Count - 1
+        Cells(i + 1, 3) = arr(i)
+    Next
+End Sub
 
+' 另一种思路
+  Dim lRow As Long
+  Dim i As Long
+  Dim str As Variant
+  Dim strKey As String
+ 
+  lRow = Range("A65536").End(xlUp).Row
+' lRow = Cells(Rows.Count,1).End(xlUp).Row
+  str = Range("A1:A" & lRow)
+  For i = 1 To lRow
+    strKey = CStr(str(i, 1))
+     If Not d.exists(strKey) Then
+        d.Add strKey, strKey
+     End If
+  Next i
+  Range("D1").Resize(UBound(d.keys) + 1, 1) = Application.Transpose(d.keys)
