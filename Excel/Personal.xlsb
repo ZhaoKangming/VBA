@@ -155,3 +155,19 @@ Public Sub DelFolders()
         MsgBox "部分文件夹不存在，在表中填充为宝石绿以标注！"
     End If
 End Sub
+
+
+' 宏作用:将选中区域的空行删除
+Sub DeleteBlankRows()
+    ' 【注意】：如果某一行为空行但是有单元格中含有空格的话是无法检测出并删除的
+    ' 【警告】：千万不要选中整个表格（wholesheet），否则遍历会浪费超级超级多时间，请选用（usedrange）
+    Dim i As Long 
+    Application.ScreenUpdating = False
+    '由于要删除行，所以要FOR NEXT要倒着来
+    For i = Selection.Rows.Count To 1 Step -1
+        If WorksheetFunction.CountA(Selection.Rows(i)) = 0 Then
+            Selection.Rows(i).EntireRow.Delete
+        End If
+    Next i
+    Application.ScreenUpdating = True                 
+End Sub
