@@ -152,5 +152,5 @@ Public Function GetFrequency(ValueRange As Range)
         Cells(i + 1, 3) = arr(i)
     Next
     
-
+    Set d = Nothing
 End Function
