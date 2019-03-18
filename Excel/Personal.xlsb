@@ -133,7 +133,7 @@ Public Sub DelFolders()
         MsgBox "请输入路径！"
         FolderPath = InputBox("请输入要删除文件夹的路径，不以'\'结尾", "输入地址")
     End If
-  
+
     Set NameRng = Selection
     Set fso = CreateObject("Scripting.FileSystemObject")
     For Each CellRng In NameRng
@@ -170,4 +170,73 @@ Sub DeleteBlankRows()
         End If
     Next i
     Application.ScreenUpdating = True                 
+End Sub
+
+
+Sub BeautifySheet()
+    ActiveWorkSheet.UsedRange.Select
+
+    ' 设置字体样式以及居中
+    With Selection
+        .Font.Name = "微软雅黑"
+        .Font.Size = 12
+        .HorizontalAlignment = xlCenter
+        .VerticalAlignment = xlCenter    
+    End With
+    ActiveWindow.DisplayGridlines = False   ' 隐藏网格线
+
+    ' 设置全边框
+    Selection.Borders(xlDiagonalDown).LineStyle = xlNone
+    Selection.Borders(xlDiagonalUp).LineStyle = xlNone
+    With Selection.Borders(xlEdgeLeft)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeTop)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeBottom)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlEdgeRight)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideVertical)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+    With Selection.Borders(xlInsideHorizontal)
+        .LineStyle = xlContinuous
+        .ColorIndex = 0
+        .TintAndShade = 0
+        .Weight = xlThin
+    End With
+
+    ' 设置首行标题
+
+    With Selection.Rows(1).Interior
+        .Pattern = xlSolid
+        .PatternColorIndex = xlAutomatic
+        .Color = 12611584
+        .TintAndShade = 0
+        .PatternTintAndShade = 0
+    End With
+    With Selection.Rows(1).Font
+        .ThemeColor = xlThemeColorDark1
+        .TintAndShade = 0
+    End With
+
 End Sub
