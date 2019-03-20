@@ -172,10 +172,9 @@ Sub DeleteBlankRows()
     Application.ScreenUpdating = True                 
 End Sub
 
-
+' 宏作用:美化表格，设置全边框，首行填充蓝色，字体为白色，关闭网格
 Sub BeautifySheet()
     ActiveWorkSheet.UsedRange.Select
-
     ' 设置字体样式以及居中
     With Selection
         .Font.Name = "微软雅黑"
