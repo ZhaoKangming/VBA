@@ -33,7 +33,7 @@ Public Sub GetFilesList()
     ActiveRow = ActiveCell.Row
     'If WorksheetFunction.CountA(Columns(ActiveCol)) > 0 Then
     '    MsgBox "请选择空白列的单元格作为输出起始区域"
-     '   Exit Sub
+    '   Exit Sub
     'End If
     FolderPath = InputBox("请输入新建文件夹的路径，不以'\'结尾", "输入地址") & "\"
     MyFile = Dir(FolderPath, 16)
