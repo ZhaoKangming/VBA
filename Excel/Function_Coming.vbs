@@ -1,4 +1,13 @@
 'Author：ZhaoKangming
+'================================CONTENTS======================================='
+【1】DelPunctuation —— 用于清除单元格内的所有标点符号
+【2】IdValid —— 用于验证身份证号码的有效性
+【3】GetDigit —— 用于提取字符串中的数字
+【4】FilesCount —— 用于返回文件夹路径（FolderPath）子一级文件和文件夹的数目
+
+
+
+'=============================================================================='
 
 '【DelPunctuation】用于清除单元格内的所有标点符号
 Public Function DelPunctuation(Txt As String) As String
@@ -23,7 +32,7 @@ Public Function IdValid(IdNumb)
       b = b * 1
     Else: b = "X"
     End If
-      
+    
     C = Left(Right(IdNumb, 18), 1) * 1
     d = Left(Right(IdNumb, 17), 1) * 1
     e = Left(Right(IdNumb, 16), 1) * 1
@@ -43,10 +52,10 @@ Public Function IdValid(IdNumb)
     s = Left(Right(IdNumb, 2), 1) * 1
     u = C * 7 + d * 9 + e * 10 + f * 5 + g * 8 + h * 4 + i * 2 + j * 1 + k * 6 + l * 3 + m * 7 + n * 9 + o * 10 + p * 5 + q * 8 + r * 4 + s * 2
     v = u Mod 11
-          
-     If a = 15 Then IdValid = "老号，请认真核对！": GoTo 100
-     
-     If a = 18 Then
+    
+    If a = 15 Then IdValid = "老号，请认真核对！": GoTo 100
+    
+    If a = 18 Then
         If v = 0 And b = 1 Then IdValid = "正确": GoTo 100
         If v = 1 And b = 0 Then IdValid = "正确": GoTo 100
         If v = 2 And b = "X" Then IdValid = "正确": GoTo 100
@@ -58,11 +67,11 @@ Public Function IdValid(IdNumb)
         If v = 8 And b = 4 Then IdValid = "正确": GoTo 100
         If v = 9 And b = 3 Then IdValid = "正确": GoTo 100
         If v = 10 And b = 2 Then IdValid = "正确": GoTo 100
-     End If
-     
-     If (a <> 0) And (a <> 15) And (a <> 18) Then IdValid = "位数不对"
-     
-     If (IdValid <> "正确") And (IdValid <> "老号，请认真核对！") And (IdValid <> "空") And (IdValid <> "位数不对") Then IdValid = "出错啦"
+    End If
+    
+    If (a <> 0) And (a <> 15) And (a <> 18) Then IdValid = "位数不对"
+    
+    If (IdValid <> "正确") And (IdValid <> "老号，请认真核对！") And (IdValid <> "空") And (IdValid <> "位数不对") Then IdValid = "出错啦"
 100:
 End Function
 
@@ -74,7 +83,7 @@ Public Function GetDigit(strValue As String) As Variant
     Dim objReg As Object, objMatchs As Object, objMatch As Object
     Dim strPat$, intIndex%
     Dim strResult() As Long  '字符型String可以得到[00001],如果想直接得到数字，可以定义为长整型Long
-     
+    
     strPat = "\d+\.*\d*"
     
     Set objReg = CreateObject("VBScript.RegExp")
@@ -87,8 +96,8 @@ Public Function GetDigit(strValue As String) As Variant
             ReDim strResult(1 To objMatchs.Count)
             intIndex = 0
             For Each objMatch In objMatchs
-                   intIndex = intIndex + 1
-                   strResult(intIndex) = objMatch
+                    intIndex = intIndex + 1
+                    strResult(intIndex) = objMatch
             Next
             GetDigit = strResult
         End If
@@ -110,7 +119,7 @@ Public Function FilesCount(FolderName) As Integer
 End Function
 
 '=============================================================================='
-' [未完成]
+' TODO: 获取选中区域的唯一值
 Public Function UniqueValue(ValueRange As Range)
     Dim rng As Range, arr, d As Object
     Set d = CreateObject("scripting.dictionary")
@@ -140,6 +149,9 @@ End Function
   Next i
   Range("D1").Resize(UBound(d.keys) + 1, 1) = Application.Transpose(d.keys)
 
+
+'=============================================================================='
+
 Public Function GetFrequency(ValueRange As Range)
     Application.ScreenUpdating = False
     Dim rng As Range, arr, d As Object
@@ -154,3 +166,6 @@ Public Function GetFrequency(ValueRange As Range)
     
     Set d = Nothing
 End Function
+
+'=============================================================================='
+' TODO:【ListNumbCount】用于加强版counttif，自动去重并数数量
