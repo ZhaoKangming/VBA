@@ -168,4 +168,6 @@ Public Function GetFrequency(ValueRange As Range)
 End Function
 
 '=============================================================================='
+
 ' TODO:【ListNumbCount】用于加强版counttif，自动去重并数数量
+

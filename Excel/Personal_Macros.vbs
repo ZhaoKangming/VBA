@@ -1,10 +1,17 @@
+'Author：ZhaoKangming
+'====================================== CONTENTS ============================================'
+
+
+
+
+'============================================================================================'
 
 '宏作用:将选中区域（NameRng）的每个单元格内容作为文件夹名在指定路径下（FolderPath）建立文件夹
 Public Sub NewFolders()
     Dim NameRng as Range, CellRng as Range, FolderPath$, ErrorOccurred As Boolean
     ErrorOccurred = FALSE
     FolderPath = inputbox("请输入新建文件夹的路径，不以'\'结尾","输入地址")
-    '【TODO】如果没有输入地址，Msgbox 并且叫重新输入
+    'TODO: 如果没有输入地址，Msgbox 并且叫重新输入
     If FolderPath = "" Then FolderPath = ActiveWorkbook.Path
     If len(Dir(FolderPath,16)) = 0 Then MkDir FolderPath  '若路径不存在则新建此文件夹
     Set NameRng = Selection
@@ -26,6 +33,7 @@ Public Sub NewFolders()
     End if
 End Sub
 
+'============================================================================================'
 '宏作用：将指定路径（FolderPath）下的子一级文件及文件夹列表输出至当前单元格起始的列区域
 Public Sub GetFilesList()
     Dim FolderPath$, MyFile, ActiveCol%, ActiveRow%
@@ -48,12 +56,12 @@ Public Sub GetFilesList()
     MsgBox "已生成子一级文件及文件夹列表！"
 End Sub
 
-
-'【TODO】右列表中有重复名字，左侧列表中没有该文件？
+'============================================================================================'
+'TODO:右列表中有重复名字，左侧列表中没有该文件？
 '宏作用：将指定路径（FolderPath）下的名字为选区（Selection)中左列的文件重命名为选区中右列的文件名
 Public Sub ReNameFiles()
     Dim FolderPath$, MyFile, ReNamedFile, StartCol%, EndCol%, StartRow%, EndRow%, CellNumb%, i%
-    '【TODO】检查选区的列数，是否空列，是否两列，是否左列有值而右列无值,右列是否有重复值
+    'TODO:检查选区的列数，是否空列，是否两列，是否左列有值而右列无值,右列是否有重复值
     CellNumb = Selection.Cells.Count
     StartCol = Selection.Cells(1).Column
     EndCol = Selection.Cells(CellNumb).Column
@@ -76,6 +84,8 @@ Public Sub ReNameFiles()
     MsgBox "All files have been renamed!"
 End Sub
 
+
+'============================================================================================'
 '宏作用：将指定路径（FolderPath）下的名字为选区（Selection)中左列的文件夹重命名为选区中右列的文件夹名
 Public Sub ReNameFolders()
     Dim FolderPath$, MyFile, ReNamedFile, StartCol%, EndCol%, StartRow%, EndRow%, CellNumb%, i%
@@ -106,6 +116,8 @@ Public Sub ReNameFolders()
     MsgBox "All files have been renamed!"
 End Sub
 
+
+'============================================================================================'
 '宏作用：将指定路径（FolderPath）下的子一级空文件夹删除
 Public Sub DelBlankFolders()
     Dim FolderPath$, MyFile
@@ -123,6 +135,7 @@ Public Sub DelBlankFolders()
 End Sub
 
 
+'============================================================================================'
 ' 宏作用:将选中区域（NameRng）的每个单元格内容作为文件夹名在指定路径下（FolderPath）删除文件夹
 Public Sub DelFolders()
     Dim NameRng As Range, CellRng As Range, FolderPath$, ErrorOccurred As Boolean
@@ -157,6 +170,7 @@ Public Sub DelFolders()
 End Sub
 
 
+'============================================================================================'
 ' 宏作用:将选中区域的空行删除
 Sub DeleteBlankRows()
     ' 【注意】：如果某一行为空行但是有单元格中含有空格的话是无法检测出并删除的
@@ -172,6 +186,8 @@ Sub DeleteBlankRows()
     Application.ScreenUpdating = True                 
 End Sub
 
+
+'============================================================================================'
 ' 宏作用:美化表格，设置全边框，首行填充蓝色，字体为白色，关闭网格
 Sub BeautifySheet()
     ActiveWorkSheet.UsedRange.Select
@@ -239,3 +255,6 @@ Sub BeautifySheet()
     End With
 
 End Sub
+
+'============================================================================================'
+'TODO:宏作用: 对表格选定区域的内容进行隔行颜色填充
