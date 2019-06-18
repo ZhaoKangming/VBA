@@ -258,10 +258,39 @@ End Sub
 
 '============================================================================================'
 'TODO:宏作用: 对表格选定区域的内容进行隔行颜色填充
+Sub FillColor()
 
+End Sub
 'TODO:可选参数，一，从区域的第几行开始填充，填充什么颜色,中间用空格分隔，如果某参数不填则有一个默认值
 'TODO:测试给选中区域的第n行填充颜色，填的是整行还是区域内的行
 
 
 '============================================================================================'
 'TODO:生成表格内容层级结构
+
+
+'============================================================================================'
+'TODO:合并单元格
+Sub MergeCells()
+    Application.ScreenUpdating = False
+    Application.DisplayAlerts = False
+    Dim StartCol%, EndCol%, StartRow%, EndRow%, CellNumb%, i%, j%
+    'TODO:检查选区的列数，是否空列，是否两列，是否左列有值而右列无值,右列是否有重复值
+    CellNumb = Selection.Cells.Count
+    StartCol = Selection.Cells(1).Column
+    EndCol = Selection.Cells(CellNumb).Column
+    StartRow = Selection.Cells(1).Row
+    EndRow = Selection.Cells(CellNumb).Row
+
+    For i = EndRow To StartRow Step -1
+        If Cells(i,StartCol) = Cells(i - 1,StartCol) Then
+            For j = StartCol To EndCol
+                Range(Cells(i - 1,j),Cells(i,j)).Merge
+            Next
+        End If
+    Next
+
+    Application.ScreenUpdating = True
+    Application.DisplayAlerts = True 
+    Msgbox "Finished Cells Merge!"
+End Sub
