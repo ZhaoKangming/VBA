@@ -170,4 +170,26 @@ End Function
 '=============================================================================='
 
 ' TODO:【ListNumbCount】用于加强版counttif，自动去重并数数量
+横向纵向
 
+Public Function AddDif(ValueRange As Range)
+    Application.ScreenUpdating = False
+    Dim rng As Range
+    Dim New_Max%, Orig_Sum%, New_Sum%, New_Dif%
+    Orig_Sum = Application.WorksheetFunction.Sum(ValueRange)
+    DifNumb = InputBox("请输入要增添的数值", "数据差值")
+    For Each rng In ValueRange
+        If rng <> "" Then rng.Value = CInt(DifNumb * rng.Value/Orig_Sum) + rng.Value
+    Next
+    New_Sum = Application.WorksheetFunction.Sum(ValueRange)
+    New_Max = Application.WorksheetFunction.Max(ValueRange)
+    New_Dif = DifNumb + Orig_Sum - New_Sum
+    For Each rng In ValueRange
+        If rng = New_Max Then 
+            rng.Value = rng.Value + New_Dif
+            Exit for
+        End if
+    Next
+
+    Msgbox "OK!"
+End Function
