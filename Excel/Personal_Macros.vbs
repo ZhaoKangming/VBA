@@ -294,3 +294,28 @@ Sub MergeCells()
     Application.DisplayAlerts = True 
     Msgbox "Finished Cells Merge!"
 End Sub
+
+'=============================================================================='
+Public Declare PtrSafe Function MsgBoxTimeOut Lib "user32" Alias "MessageBoxTimeoutA" (ByVal hwnd As Long, ByVal lpText As String, ByVal lpCaption As String, ByVal wType As Long, ByVal wlange As Long, ByVal dwTimeout As Long) As Long 'AutoClose
+Public Sub AddDif()
+    Application.ScreenUpdating = False
+    Dim rng As Range, ValueRange As Range
+    Set ValueRange = Selection
+    Dim New_Max%, Orig_Sum%, New_Sum%, New_Dif%, DifNumb
+    Orig_Sum = Application.WorksheetFunction.Sum(ValueRange)
+    DifNumb = InputBox("请输入要增添的数值或者以#开头的目标值", "数据差值")
+    If Left(DifNumb,1)="#" Then DifNumb = Right(DifNumb, Len(DifNumb)-1) - Orig_Sum
+    For Each rng In ValueRange
+        If rng <> "" Then rng.Value = CInt(DifNumb * rng.Value / Orig_Sum) + rng.Value
+    Next
+    New_Sum = Application.WorksheetFunction.Sum(ValueRange)
+    New_Max = Application.WorksheetFunction.Max(ValueRange)
+    New_Dif = DifNumb + Orig_Sum - New_Sum
+    For Each rng In ValueRange
+        If rng = New_Max Then
+            rng.Value = rng.Value + New_Dif
+            Exit For
+        End If
+    Next
+    MsgBoxTimeOut 0,"增加数据成功！", "提示", 64, 0, 300
+End Sub
