@@ -151,7 +151,8 @@ End Function
 
 
 '=============================================================================='
-
+' TODO:【ListNumbCount】用于加强版counttif，自动去重并数数量
+横向纵向
 Public Function GetFrequency(ValueRange As Range)
     Application.ScreenUpdating = False
     Dim rng As Range, arr, d As Object
@@ -167,7 +168,3 @@ Public Function GetFrequency(ValueRange As Range)
     Set d = Nothing
 End Function
 
-'=============================================================================='
-
-' TODO:【ListNumbCount】用于加强版counttif，自动去重并数数量
-横向纵向

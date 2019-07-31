@@ -319,3 +319,45 @@ Public Sub AddDif()
     Next
     MsgBoxTimeOut 0,"增加数据成功！", "提示", 64, 0, 300
 End Sub
+
+'=============================================================================='
+Public Sub DocTitle()
+    Application.ScreenUpdating = False
+    Dim ZR_Numb&, FZR_Numb&, ZZ_Numb&, YS_Numb&, rng As Range, Parameters, DstRow&, DstCol%
+    ' 医生职称的统计
+    Parameters = InputBox("请输入:行号&列号#有无表头", "输入参数")
+    For Each rng in Selection
+        If rng Like "*副*" Then
+            FZR_Numb = FZR_Numb + 1
+        ElseIf rng Like "*主任*" Then
+            ZR_Numb = ZR_Numb + 1
+        ElseIf rng Like "*主治*" Then
+            ZZ_Numb = ZZ_Numb + 1
+        Else
+            YS_Numb = YS_Numb + 1
+        End If
+    Next
+    DstRow = Left(Parameters,InStr(Parameters,"&")-1)
+    DstCol = Mid(Parameters,InStr(Parameters,"&")+1,Len(Parameters)-InStr(Parameters,"&")-2)
+    If Right(Parameters,1) = 1 Then
+        Cells(DstRow, DstCol) = "主任医师"
+        Cells(DstRow + 1, DstCol) = "副主任医师"
+        Cells(DstRow + 2, DstCol) = "主治医师"
+        Cells(DstRow + 3, DstCol) = "医师"
+        Cells(DstRow + 4, DstCol) = "总计"
+        
+        Cells(DstRow, DstCol + 1)  = ZR_Numb
+        Cells(DstRow + 1, DstCol + 1) = FZR_Numb
+        Cells(DstRow + 2, DstCol + 1) = ZZ_Numb
+        Cells(DstRow + 3, DstCol + 1) = YS_Numb
+        Cells(DstRow + 4, DstCol + 1) = ZR_Numb + FZR_Numb + ZZ_Numb + YS_Numb
+    Elseif Right(Parameters,1) = 0 Then
+        Cells(DstRow, DstCol) = FZR_Numb
+        Cells(DstRow + 1, DstCol) = FZR_Numb
+        Cells(DstRow + 2, DstCol) = ZZ_Numb
+        Cells(DstRow + 3, DstCol) = YS_Numb
+        Cells(DstRow + 4, DstCol) = ZR_Numb + FZR_Numb + ZZ_Numb + YS_Numb
+    End If
+    Msgbox "Finished!"
+    Application.ScreenUpdating = True
+End Sub
