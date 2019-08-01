@@ -321,6 +321,7 @@ Public Sub AddDif()
 End Sub
 
 '=============================================================================='
+'此宏用于统计选区内的医生职称
 Public Sub DocTitle()
     Application.ScreenUpdating = False
     Dim ZR_Numb&, FZR_Numb&, ZZ_Numb&, YS_Numb&, rng As Range, Parameters, DstRow&, DstCol%
@@ -360,4 +361,11 @@ Public Sub DocTitle()
     End If
     Msgbox "Finished!"
     Application.ScreenUpdating = True
+End Sub
+
+
+'=============================================================================='
+'此宏用于从选区内读取要替换和替换词，实现批量替换
+Public Sub BatchReplace()
+
 End Sub
