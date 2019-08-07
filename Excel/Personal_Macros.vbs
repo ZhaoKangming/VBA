@@ -363,7 +363,28 @@ Public Sub DocTitle()
     Application.ScreenUpdating = True
 End Sub
 
-
+'=============================================================================='
+'此宏用于在选定单元格所在的空列生成上一列的职称信息的转化
+'TODO:如果所在的列存在数据那么提示
+Public Sub DocTitle_Trans()
+    Application.ScreenUpdating = False
+    Dim i&, LastRow&, DstCol%
+    DstRow = Selection.Column
+    LastRow = ActiveSheet.Cells(1048576, DstRow - 1).End(xlUp).Row
+    For i = Selection.Row To LastRow
+        If Cells(i, DstRow - 1) Like "*副*" Then
+                Cells(i, DstRow) = "副主任医师"
+        ElseIf Cells(i, DstRow - 1) Like "*主任*" Then
+            Cells(i, DstRow) = "主任医师"
+        ElseIf Cells(i, DstRow - 1) Like "*主治*" Then
+            Cells(i, DstRow) = "主治医师"
+        Else
+            Cells(i, DstRow) = "医师"
+        End If
+    Next i
+    MsgBox "Finished!"
+    Application.ScreenUpdating = True
+End Sub
 '=============================================================================='
 '此宏用于从选区内读取要替换和替换词，实现批量替换
 Public Sub BatchReplace()
