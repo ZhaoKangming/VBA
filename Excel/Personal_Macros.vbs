@@ -390,3 +390,26 @@ End Sub
 Public Sub BatchReplace()
 
 End Sub
+
+Sub Test()
+    Application.ScreenUpdating = False
+    Randomize
+    For i = 2 To [A1048576].End(xlUp).Row
+        If Cells(i, 5) = "其他" Then
+            If Rnd() < 0.4418 Then
+                Cells(i, 5) = "二甲"
+            ElseIf Rnd() < 0.6701 Then
+                Cells(i, 5) = "三甲"
+            ElseIf Rnd() < 0.8455 Then
+                Cells(i, 5) = "一甲"
+            ElseIf Rnd() < 0.9203 Then
+                Cells(i, 5) = "三乙"
+            ElseIf Rnd() < 0.9797 Then
+                Cells(i, 5) = "二乙"
+            Else
+                Cells(i, 5) = "一乙"
+            End If
+        End If
+    Next i
+    MsgBox "已经处理完成！"
+End Sub

@@ -15,6 +15,8 @@ Sub DepartData_Clean()
         .Replace "不确定","其他"
         .Replace "科科","科"
         .Replace "&","、"
+        .Replace "妇女儿童","妇幼"
+
 
         ' 拼音问题
         .Replace "neike","内科"
@@ -27,6 +29,8 @@ Sub DepartData_Clean()
         .Replace "gangchang","肛肠"
         .Replace "zhuyuanbu","住院部"
         .Replace "ke","科"
+        .Replace "医生",""
+        .Replace "骨区","骨科"
         
         .Replace "x光","X光"
         .Replace "b超","B超"
@@ -45,6 +49,8 @@ Sub DepartData_Clean()
         .Replace "计生","计划生育"
         .Replace "计免","计划免疫"
         .Replace "公卫","公共卫生"
+        .Replace "共卫","公共卫生"
+        .Replace "功检","功能检查"
 
         '修改错别字部分
         .Replace "女姓","女性"
@@ -73,7 +79,7 @@ Sub DepartData_Clean()
 
     
     Hosp_Arr = Array("服务中心","服务站","医院","卫生院","卫生室","卫生所","卫生站","中心站","社区","诊所","工作室", _
-                    "居委会","医疗中心","小学","中学","大学")
+                    "居委会","医疗中心","小学","中学","大学","妇幼保健院","有限公司")
     For Each rng in Selection
         ' 去除科室中的医院信息
         For i = 0 TO UBound(Hosp_Arr)
@@ -100,6 +106,7 @@ Sub DepartData_Clean()
             .Replace NumbRegion_Arr(i),"区"
         Next
         .Replace "科科","科"
+
         .Replace "","其他"       ' 补全空白单元格
     End With
 
@@ -119,15 +126,19 @@ Sub DepartData_Clean()
         If rng.Value = "综合外科" Then rng.Value = "外科"
         If rng.Value = "科" Then rng.Value = "其他"
         If rng.Value = "B超" Then rng.Value = "B超室"
+        If rng.Value = "综合" Then rng.Value = "综合科"
 
         ' 科室合并
         If rng.Value Like "*药房*" Then rng.Value = "药房"
         If rng.Value Like "*ICU*" Then rng.Value = "ICU"
         If rng.Value Like "*人事*" Then rng.Value = "人事科"
+        If rng.Value Like "*财务*" Then rng.Value = "财务科"
         If rng.Value Like "*办事*" Then rng.Value = "办事处"
         If rng.Value Like "*客服*" Then rng.Value = "客服部"
         If rng.Value Like "*教务*" Then rng.Value = "教务部"
         If rng.Value Like "*教学*" Then rng.Value = "教务部"
+        If rng.Value Like "*办公室*" Then rng.Value = "办公室"
+        If rng.Value Like "*防保*" Then rng.Value = "防保科"
         If rng.Value Like "*公共卫生*" Then rng.Value = "公共卫生部"
         If rng.Value Like "*行政*" Then rng.Value = "行政部"
         If rng.Value Like "*新生儿*" Then rng.Value = "新生儿科"
@@ -148,9 +159,13 @@ Sub DepartData_Clean()
 
     Selection.Replace "科科","科"
     Selection.Replace "科区","科"
+    Selection.Replace "科室","科"
+    Selection.Replace "科站","科"
+    Selection.Replace "科中心","科"
     
     'TODO:结尾为科和室这些要统一，比如B超科与B超室应该是一致的
-
+    '传染科 传染病科  感染 第一 第二
+    ' 护士 护师 护士站 护士室
     Msgbox "Finished Data clean!"
     Application.ScreenUpdating = True
 End Sub
