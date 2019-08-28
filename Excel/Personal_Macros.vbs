@@ -390,7 +390,8 @@ End Sub
 Public Sub BatchReplace()
 
 End Sub
-
+'=============================================================================='
+'【说明】此程序用于按照已经定好的比例给用户随机分配一个医院级别
 Sub Test()
     Application.ScreenUpdating = False
     Randomize
@@ -413,3 +414,67 @@ Sub Test()
     Next i
     MsgBox "已经处理完成！"
 End Sub
+
+'=============================================================================='
+' TODO: 获取选中区域的唯一值
+Public Function UniqueValue(ValueRange As Range)
+    Dim rng As Range, arr, d As Object
+    Set d = CreateObject("scripting.dictionary")
+    For Each rn In ValueRange
+        If rng <> "" And Not d.exists(rng.Value) Then d(rng.Value)= rng.Value
+    Next
+    arr = d.items
+    For i = 0 To d.Count - 1
+        Cells(i + 1, 3) = arr(i)
+    Next
+End Function
+
+' 另一种思路
+  Dim lRow As Long
+  Dim i As Long
+  Dim str As Variant
+  Dim strKey As String
+ 
+  lRow = Range("A65536").End(xlUp).Row
+' lRow = Cells(Rows.Count,1).End(xlUp).Row
+  str = Range("A1:A" & lRow)
+  For i = 1 To lRow
+    strKey = CStr(str(i, 1))
+     If Not d.exists(strKey) Then
+        d.Add strKey, strKey
+     End If
+  Next i
+  Range("D1").Resize(UBound(d.keys) + 1, 1) = Application.Transpose(d.keys)
+
+
+'=============================================================================='
+' TODO:【ListNumbCount】用于加强版counttif，自动去重并数数量
+' 横向纵向
+Public Sub GetFrequency()
+    Application.ScreenUpdating = False
+    Dim rng As Range, input_Rng As Range, output_Range, arr, dict As Object
+
+    'Part1:将不重复项及出现次数写入到词典
+    Set input_Rng = Selection
+    Set dict = CreateObject("scripting.dictionary")
+    For Each rng In input_Rng
+        If rng <> "" And Not dict.exists(rng.Value) Then 
+            dict(rng.Value)= Application.WorksheetFunction.Countif(input_Rng,rng.Value)
+        End If
+    Next
+    
+    'Part2:将词典内容输出到指定单元格
+    Set output_Range = Application.InputBox(prompt:="请选择输出单元格：", Type:=8)
+    output_Range.Resize(UBound(dict.keys) + 1, 1) = Application.Transpose(dict.keys)
+    Cells(output_Range.Row, output_Range.Column + 1).Resize(UBound(dict.items) + 1, 1) = Application.Transpose(dict.items)
+    
+    'Part3：对输出进行排序
+    ActiveSheet.Range(output_Range,Cells(output_Range.Row + dict.count - 1,output_Range.Column + 1)).Sort key1:=Cells(output_Range.Row,output_Range.Column + 1), _
+                order1:=xlDescending, Header:=xlNo, MatchCase:=True
+
+    Set dict = Nothing
+    Application.ScreenUpdating = False
+    Msgbox "Finished！"
+End Sub
+
+

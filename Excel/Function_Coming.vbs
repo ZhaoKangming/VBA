@@ -119,52 +119,5 @@ Public Function FilesCount(FolderName) As Integer
 End Function
 
 '=============================================================================='
-' TODO: 获取选中区域的唯一值
-Public Function UniqueValue(ValueRange As Range)
-    Dim rng As Range, arr, d As Object
-    Set d = CreateObject("scripting.dictionary")
-    For Each rn In ValueRange
-        If rng <> "" And Not d.exists(rng.Value) Then d(rng.Value)= rng.Value
-    Next
-    arr = d.items
-    For i = 0 To d.Count - 1
-        Cells(i + 1, 3) = arr(i)
-    Next
-End Function
 
-' 另一种思路
-  Dim lRow As Long
-  Dim i As Long
-  Dim str As Variant
-  Dim strKey As String
- 
-  lRow = Range("A65536").End(xlUp).Row
-' lRow = Cells(Rows.Count,1).End(xlUp).Row
-  str = Range("A1:A" & lRow)
-  For i = 1 To lRow
-    strKey = CStr(str(i, 1))
-     If Not d.exists(strKey) Then
-        d.Add strKey, strKey
-     End If
-  Next i
-  Range("D1").Resize(UBound(d.keys) + 1, 1) = Application.Transpose(d.keys)
-
-
-'=============================================================================='
-' TODO:【ListNumbCount】用于加强版counttif，自动去重并数数量
-横向纵向
-Public Function GetFrequency(ValueRange As Range)
-    Application.ScreenUpdating = False
-    Dim rng As Range, arr, d As Object
-    Set d = CreateObject("scripting.dictionary")
-    For Each rn In ValueRange
-        If rng <> "" And Not d.exists(rng.Value) Then d(rng.Value)= rng.Value
-    Next
-    arr = d.items
-    For i = 0 To d.Count - 1
-        Cells(i + 1, 3) = arr(i)
-    Next
-    
-    Set d = Nothing
-End Function
 
