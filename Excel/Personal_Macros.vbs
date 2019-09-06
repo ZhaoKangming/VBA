@@ -366,9 +366,12 @@ End Sub
 '=============================================================================='
 '此宏用于在选定单元格所在的空列生成上一列的职称信息的转化
 'TODO:如果所在的列存在数据那么提示
+'TODO:用超多、较少的行数老分别测试，可能有问题
+'TODO:DstCol and DstRow更正过来
 Public Sub DocTitle_Trans()
     Application.ScreenUpdating = False
     Dim i&, LastRow&, DstCol%
+
     DstRow = Selection.Column
     LastRow = ActiveSheet.Cells(1048576, DstRow - 1).End(xlUp).Row
     For i = Selection.Row To LastRow
@@ -448,8 +451,9 @@ End Function
 
 
 '=============================================================================='
-' TODO:【ListNumbCount】用于加强版counttif，自动去重并数数量
+' TODO:【GetFrequency】自动去重并数数量
 ' 横向纵向
+Public Declare PtrSafe Function MsgBoxTimeOut Lib "user32" Alias "MessageBoxTimeoutA" (ByVal hwnd As Long, ByVal lpText As String, ByVal lpCaption As String, ByVal wType As Long, ByVal wlange As Long, ByVal dwTimeout As Long) As Long 'AutoClose
 Public Sub GetFrequency()
     Application.ScreenUpdating = False
     Dim rng As Range, input_Rng As Range, output_Range, arr, dict As Object
@@ -474,7 +478,8 @@ Public Sub GetFrequency()
 
     Set dict = Nothing
     Application.ScreenUpdating = False
-    Msgbox "Finished！"
+    MsgBoxTimeOut 0,"统计数据成功！", "提示", 64, 0, 300
 End Sub
 
-
+'=============================================================================='
+'TODO:数据清洗工具；医院、职称、科室、医院级别等等
